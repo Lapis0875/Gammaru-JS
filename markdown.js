@@ -61,9 +61,9 @@ function renderMarkdowns() {
         console.log(`Deploying content '${v}'...`)
         let content = fs.readFileSync(path.join(mdContentsDir, v), "utf-8")
         let templateType = content.match(/<type:(\w+)>.*/)[1]
-        console.log(`templateType = ${templateType}`)
+        // console.log(`templateType = ${templateType}`)
         content = content.replace(`<type:${templateType}>`, '')
-        console.log(`md content = \n---\n${content}\n---`)
+        // console.log(`md content = \n---\n${content}\n---`)
         let convertedMd = md.render(content)
         let filename = getFileName(v)
         let html = ejs.render(templates[templateType], {name: filename, content: convertedMd})
