@@ -1,6 +1,7 @@
 const path = require("path")
 const fs = require("fs")
-const getFileName = require("../markdown").getFileName
+const { todoRoute } = require("../todo_api")
+const { getFileName } = require("../markdown")
 
 deployPath = path.join(path.dirname(__dirname), "deploy")
 
@@ -22,14 +23,5 @@ module.exports.connectRoutes = (app) => {
         console.log(`Generate route for ${v}`)
         generateRoute(app, getFileName(v))
     })
-    // app.get('/', (req, res) => {
-    //     try {
-    //         res.render(path.join(deployPath, "index.html"))
-    //     } catch (e) {console.log(e)}
-    // })
-    // app.get('/about', (req, res) => {
-    //     try {
-    //         res.render(deployPath, "about.html")
-    //     } catch (e) {console.log(e)}
-    // })
+    todoRoute(app)
 }

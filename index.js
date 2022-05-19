@@ -3,7 +3,21 @@ const ejs = require("ejs")
 const markdown = require("./markdown")
 
 // express app
-let app = express();
+let app = express()
+app.use(express.static("public"))
+app.use(express.json())
+
+// middleware to add `res.sendJsonExtra()` method to each request
+// so other code can then call it as needed
+function jsonExtra(req, res, next) {
+    res.jsonDateOverride = function(obj) {
+        obj.due = obj.due.to
+        res.json(obj);    
+    }
+    next();
+}
+
+app.use(jsonExtra);
 
 /** 
  * Initialize express app.
