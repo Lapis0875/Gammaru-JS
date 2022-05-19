@@ -157,7 +157,7 @@ function route(app) {
      * Body {name: String, due: String}
      */
     app.post("/todo/create", (req, res) => {
-        console.log(`Create new todo with request body \n${req.body}`)
+        console.log(`Create new todo with request body \n${JSON.stringify(req.body)}`)
         // 올바른 요청인지 검사
         if(!("name" in req.body) || !("due" in req.body)){
             let result = {}
