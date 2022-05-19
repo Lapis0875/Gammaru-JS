@@ -17,5 +17,7 @@ Lorem Ipsum~
 > 당신이 심연을 들여다 볼 때, 심연 또한 당신을 들여다본다.
 
 ```js
-{} + [] === 0;
+console.log({} + [] === 0);
+let myVar = 0;
+const universialAnswer = 42; 
 ```
