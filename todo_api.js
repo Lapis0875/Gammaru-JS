@@ -80,10 +80,12 @@ class TodoAPI{
     /**
      * Get Todo of given id.
      * @param {Number} id id of Todo object.
-     * @returns 
+     * @returns {Todo | undefined} Todo of given id if exist, else undefined.
      */
     get(id) {
-        return this.cache.filter(v => v.id === id)[0]
+        let filtered = this.cache.filter(v => v.id === id)
+        if (filtered.length > 0) return filtered[0]
+        return undefined
     }
 
     /**
@@ -101,6 +103,7 @@ class TodoAPI{
      */
     edit(id, data) {
         let t = this.get(id)
+        if (t === undefined) return undefined
         if ("name" in data)
         {
             console.log(`Edit name of todo from ${t.name} to ${data["name"]}`)
@@ -149,7 +152,12 @@ function route(app) {
      */
     app.get("/todo/:id", (req, res) => {
         console.log(`Get todo of id ${req.params.id}`)
-        res.json(api.get(Number.parseInt(req.params.id)))
+        let t = api.get(Number.parseInt(req.params.id))
+        if (t == undefined) {
+            res.status(404).json({result: 'fail', error: `Todo of id ${req.params.id} does not exist.`})
+        } else{
+            res.json(t)
+        }
     })
 
     /**
@@ -179,7 +187,11 @@ function route(app) {
         console.log(`Edit todo of id ${req.params.id}`)
         let edited = api.edit(Number.parseInt(req.params.id), req.body)
         console.log(JSON.stringify(edited, null, 2))
-        res.json(edited)
+        if (edited === undefined) {
+            res.status(404).json({result: 'fail', error: `Todo of id ${req.params.id} does not exist.`})
+        } else {
+            res.json(edited)
+        }
     })
 
     /**
